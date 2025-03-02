@@ -37,7 +37,7 @@ public class CarrfourCartScraper extends AbstractCartScraper {
     }
 
     public JSONObject getCartObject(Map<Integer, Float> idQuantityMap) throws IOException, InterruptedException, APIResponseException {
-        this.initClient();
+        //this.initClient();
 
         String uriString;
         HttpRequest request;
