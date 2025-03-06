@@ -19,7 +19,7 @@ public abstract class AbstractAlgorithmRunner implements IAlgorithmRunner{
         IntStream.range(0, algorithmInput.getBarcodeList().size()).forEach(index ->
                 barcodeStoreNumMap.put(
                         algorithmInput.getBarcodeList().get(index),
-                        algorithmResult.get(index)
+                        (algorithmResult == null) ? -1 : algorithmResult.get(index)
                 )
         );
         return barcodeStoreNumMap;

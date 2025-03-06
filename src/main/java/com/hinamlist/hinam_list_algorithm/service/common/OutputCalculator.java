@@ -10,7 +10,6 @@ public class OutputCalculator {
     public float calculateOutputTotalPrice(AlgorithmInput algorithmInput, List<Integer> output) {
         Set<Integer> usedStoreNumbers = new HashSet<>();
         float sum = 0F;
-
         for (int i = 0; i < output.size(); i++) {
             int currentStoreNum = output.get(i);
             if (!usedStoreNumbers.contains(currentStoreNum)) {

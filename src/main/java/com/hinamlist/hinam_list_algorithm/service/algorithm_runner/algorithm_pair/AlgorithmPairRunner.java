@@ -77,6 +77,10 @@ public class AlgorithmPairRunner extends AbstractAlgorithmRunner {
                     pair.getValue()
             );
 
+            if (currentResult == null) {
+                continue;
+            }
+
             if (isCheckValidity && !outputCalculator.isOutputValid(algorithmInput, currentResult))
                 continue;
 
