@@ -3,6 +3,7 @@ package com.hinamlist.hinam_list_algorithm.service.algorithm_runner.algorithm_pa
 import com.hinamlist.hinam_list_algorithm.model.AlgorithmInput;
 import com.hinamlist.hinam_list_algorithm.service.algorithm.algorithm_pair.IAlgorithmPair;
 import com.hinamlist.hinam_list_algorithm.service.algorithm_runner.AbstractAlgorithmRunner;
+import com.hinamlist.hinam_list_algorithm.service.common.OutputCalculator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,11 @@ import java.util.List;
 
 @Component
 public class AlgorithmPairRunner extends AbstractAlgorithmRunner {
-    private IAlgorithmPair algorithm;
+    private final IAlgorithmPair algorithm;
 
     @Autowired
-    public AlgorithmPairRunner(IAlgorithmPair algorithm) {
+    public AlgorithmPairRunner(OutputCalculator outputCalculator, IAlgorithmPair algorithm) {
+        super(outputCalculator);
         this.algorithm = algorithm;
     }
 
@@ -75,15 +77,15 @@ public class AlgorithmPairRunner extends AbstractAlgorithmRunner {
                     pair.getValue()
             );
 
-            if (isCheckValidity && !isOutputValid(algorithmInput, currentResult))
+            if (isCheckValidity && !outputCalculator.isOutputValid(algorithmInput, currentResult))
                 continue;
 
             if (bestResult == null) {
                 bestResult = currentResult;
-                bestResultSum = calculatePriceByStoreNumList(algorithmInput, currentResult);
+                bestResultSum = outputCalculator.calculateOutputTotalPrice(algorithmInput, currentResult);
             }
             else {
-                float currentResultSum = calculatePriceByStoreNumList(algorithmInput, currentResult);
+                float currentResultSum = outputCalculator.calculateOutputTotalPrice(algorithmInput, currentResult);
                 if (bestResultSum > currentResultSum) {
                     bestResult = currentResult;
                     bestResultSum = currentResultSum;
@@ -94,7 +96,7 @@ public class AlgorithmPairRunner extends AbstractAlgorithmRunner {
     }
 
     @Override
-    public List<Integer> run(AlgorithmInput algorithmInput) {
+    public List<Integer> runAlgorithm(AlgorithmInput algorithmInput) {
         List<Integer> bestResult = null;
 
         List<ImmutablePair<Integer, Integer>> validPairList = getValidPairs(algorithmInput);

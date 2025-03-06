@@ -1,10 +1,9 @@
 package com.hinamlist.hinam_list_algorithm.service.algorithm_runner;
 
 import com.hinamlist.hinam_list_algorithm.model.AlgorithmInput;
-import com.hinamlist.hinam_list_algorithm.model.AlgorithmOutput;
 
-import java.util.List;
+import java.util.Map;
 
 public interface IAlgorithmRunner {
-    public List<Integer> run(AlgorithmInput algorithmInput);
+    public Map<String, Integer> run(AlgorithmInput algorithmInput);
 }

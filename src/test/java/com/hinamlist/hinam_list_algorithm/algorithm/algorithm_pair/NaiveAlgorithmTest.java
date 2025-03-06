@@ -2,24 +2,25 @@ package com.hinamlist.hinam_list_algorithm.algorithm.algorithm_pair;
 
 import com.hinamlist.hinam_list_algorithm.model.AlgorithmInput;
 import com.hinamlist.hinam_list_algorithm.service.algorithm.algorithm_pair.NaiveAlgorithm;
+import com.hinamlist.hinam_list_algorithm.service.common.OutputCalculator;
 import org.assertj.core.internal.Integers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static com.hinamlist.hinam_list_algorithm.service.algorithm_runner.AbstractAlgorithmRunner.calculatePriceByStoreNumList;
-import static com.hinamlist.hinam_list_algorithm.service.algorithm_runner.AbstractAlgorithmRunner.isOutputValid;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class NaiveAlgorithmTest {
+
+    @Autowired
+    private OutputCalculator outputCalculator;
+
     public static Stream<Arguments> getLowerLimitTestCases() {
         List<String> barcodeList = Arrays.asList("00","01", "02", "03");
 
@@ -77,7 +78,7 @@ public class NaiveAlgorithmTest {
     @MethodSource("getLowerLimitTestCases")
     public void lowerLimitTest(String name, AlgorithmInput algorithmInput, List<Integer> expectedResult) {
 
-        var result = new NaiveAlgorithm().execute(algorithmInput, 1, 2);
+        var result = new NaiveAlgorithm(outputCalculator).execute(algorithmInput, 1, 2);
         assertEquals(expectedResult, result);
     }
 

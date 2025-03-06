@@ -30,18 +30,15 @@ public class StoreCombinationIterator implements Iterator<List<Integer>> {
     @Override
     public List<Integer> next() {
         if (!hasNext()) {
-            throw new NoSuchElementException("No more combinations");
+            throw new NoSuchElementException("No more combinations.");
         }
 
-        // Generate the current combination
         List<Integer> combination = new ArrayList<>(size);
         for (int bit = 0; bit < size; bit++) {
             // Use bitwise AND to determine which number to use
-            // If the bit is 1, use j, otherwise use i
             combination.add(((currentCombination >> bit) & 1) == 1 ? j : i);
         }
 
-        // Move to next combination
         currentCombination++;
 
         return combination;

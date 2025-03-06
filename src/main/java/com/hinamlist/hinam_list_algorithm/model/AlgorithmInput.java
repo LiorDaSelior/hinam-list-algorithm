@@ -1,14 +1,20 @@
 package com.hinamlist.hinam_list_algorithm.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 public class AlgorithmInput implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    @JsonProperty("barcodeList")
     private List<String> barcodeList;
+    @JsonProperty("storeNumberPriceListMap")
     private Map<Integer, List<Float>> storeNumberPriceListMap;
+    @JsonProperty("storeNumberLowerLimitMap")
     private Map<Integer, Float> storeNumberLowerLimitMap;
+    @JsonProperty("storeNumberOrderAddonMap")
     private Map<Integer, Float> storeNumberOrderAddonMap;
 
     public AlgorithmInput() {}
@@ -22,6 +28,7 @@ public class AlgorithmInput implements Serializable {
         this.storeNumberLowerLimitMap = storeNumberLowerLimitMap;
         this.storeNumberOrderAddonMap = storeNumberOrderAddonMap;
     }
+
 
     public List<String> getBarcodeList() {
         return barcodeList;

@@ -1,17 +1,19 @@
 package com.hinamlist.hinam_list_algorithm.service.algorithm.algorithm_pair;
 
 import com.hinamlist.hinam_list_algorithm.model.AlgorithmInput;
+import com.hinamlist.hinam_list_algorithm.service.algorithm_runner.AbstractAlgorithmRunner;
+import com.hinamlist.hinam_list_algorithm.service.common.OutputCalculator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static com.hinamlist.hinam_list_algorithm.service.algorithm_runner.AbstractAlgorithmRunner.calculatePriceByStoreNumList;
-import static com.hinamlist.hinam_list_algorithm.service.algorithm_runner.AbstractAlgorithmRunner.isOutputValid;
 
 @Component
-public class NaiveAlgorithm implements IAlgorithmPair {
+public class NaiveAlgorithm extends AbstractAlgorithmPair {
+
+    @Autowired
+    public NaiveAlgorithm(OutputCalculator outputCalculator) {
+        super(outputCalculator);
+    }
 
     @Override
     public List<Integer> execute(AlgorithmInput algorithmInput, int storeNum1, int storeNum2) {
@@ -20,15 +22,15 @@ public class NaiveAlgorithm implements IAlgorithmPair {
         for (StoreCombinationIterator it = new StoreCombinationIterator(storeNum1, storeNum2, algorithmInput.getBarcodeList().size()); it.hasNext(); ) {
             var output = it.next();
 
-            if (!isOutputValid(algorithmInput, output))
+            if (!outputCalculator.isOutputValid(algorithmInput, output))
                 continue;
 
             if (bestResult == null) {
                 bestResult = output;
-                bestResultSum = calculatePriceByStoreNumList(algorithmInput, output);
+                bestResultSum = outputCalculator.calculateOutputTotalPrice(algorithmInput, output);
             }
             else {
-                float currentResultSum = calculatePriceByStoreNumList(algorithmInput, output);
+                float currentResultSum = outputCalculator.calculateOutputTotalPrice(algorithmInput, output);
                 if (bestResultSum > currentResultSum) {
                     bestResult = output;
                     bestResultSum = currentResultSum;
